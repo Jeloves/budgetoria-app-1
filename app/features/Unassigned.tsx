@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react'
-import './Unassigned.css'
+import { useEffect, useState } from 'react';
+import styles from "./unassigned.module.scss";
 
 function Unassigned() {
-    const [count, setCount] = useState(0)
   
     return (
       <>
-        <section className='unassigned' style={{ display: 'flex' }}>
-            <div style={{ display: 'flex' }}>
+        <section className={styles.unassigned}>
+            <div>
                 <data>$ 100.000</data>
                 <label>Ready to Assign</label>
             </div>
             <button>Assign Money</button>
         </section>
-  
       </>
     )
   }
