@@ -1,0 +1,14 @@
+@use '@styles/color';
+
+.top_menu {
+    height: auto;
+    width: 100%;
+    background-color: color.$primary-dark;;
+    display: flex;
+
+   .showSidebar {
+    background-color: transparent;
+    border: 0;
+   }
+
+}
