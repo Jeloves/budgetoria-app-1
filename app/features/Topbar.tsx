@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./topbar.module.scss";
+import {readBudgetSubcollections, readBudgets} from "../../firebase/firebase"
+
 
 function Topbar() {
 	return (
