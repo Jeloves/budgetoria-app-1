@@ -1,0 +1,7 @@
+@use "color";
+
+body {
+	font-family: Inter, sans-serif;
+	background-color: color.$primary-dark;
+	color: color.$white;
+}
