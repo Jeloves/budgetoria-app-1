@@ -1,14 +1,33 @@
-@use '@styles/color';
+@use "@styles/color";
 
 .top_menu {
-    height: auto;
-    width: 100%;
-    background-color: color.$primary-dark;;
-    display: flex;
+	height: auto;
+	display: flex;
+	background-color: color.$primary-dark;
 
-   .showSidebar {
-    background-color: transparent;
-    border: 0;
-   }
+	.showSidebar {
+		background-color: transparent;
+		border: 0;
+	}
 
+	.dateContainer {
+		height: auto;
+		display: flex;
+		flex: 1;
+		justify-content: center;
+	}
+
+	.showDatePicker {
+		background-color: transparent;
+		border: 0;
+	}
+
+
+    h1 {
+		
+    }
+}
+
+.test {
+    background-color: red;
 }
