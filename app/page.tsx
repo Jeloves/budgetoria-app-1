@@ -1,11 +1,17 @@
-import Image from "next/image";
-import Topbar from "./components/Topbar";
+import Topbar from "./features/Topbar";
+import Unassigned from "./features/Unassigned";
+import "@styles/global.scss";
 
 export default function Home() {
 	return (
 		<>
-			<Topbar></Topbar>
-			<main></main>
+			<header>
+				<Topbar></Topbar>
+				<Unassigned></Unassigned>
+			</header>
+			<main> 
+
+			</main>
 		</>
 	);
 }
