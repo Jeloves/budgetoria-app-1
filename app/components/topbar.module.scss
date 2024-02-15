@@ -1,11 +1,14 @@
 @use "@styles/color";
 
 .top_menu {
-	height: auto;
+	height: 8vh;
+	width: 100%;
 	display: flex;
+	position: fixed;
 	background-color: color.$primary-dark;
+	align-items: center;
 
-	.showSidebar {
+	button {
 		background-color: transparent;
 		border: 0;
 	}
@@ -16,18 +19,4 @@
 		flex: 1;
 		justify-content: center;
 	}
-
-	.showDatePicker {
-		background-color: transparent;
-		border: 0;
-	}
-
-
-    h1 {
-		
-    }
-}
-
-.test {
-    background-color: red;
 }
