@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from "./unassigned.module.scss";
 
-function Unassigned() {
+function Unassigned(unassignedBalance) {
   
     return (
       <>
