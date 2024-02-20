@@ -18,7 +18,6 @@ export default function Login() {
 	});
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		console.log("inputs changing");
 		const { name, value } = e.target;
 		setFormData({
 			...formData,
@@ -31,7 +30,8 @@ export default function Login() {
 		e.preventDefault();
 		try {
 			const user = await signInUser(formData.email, formData.password);
-			router.push("/");
+			const destinationUrl = `/?uid=${encodeURIComponent(user.uid)}`;
+			router.push(destinationUrl);
 		} catch (error) {
 			console.error(error);
 		}
