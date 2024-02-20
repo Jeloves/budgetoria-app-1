@@ -1,11 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { Account, Category, Subcategory, Allocation, Transaction } from "./model.js";
-import { firebaseConfig, collectionLabel} from "./firebase.config.js";
+import { firebaseConfig, collectionLabel } from "./firebase.config.js";
 import { budgetConverter, accountConverter, categoryConverter, subcategoryConverter, allocationConverter, transactionConverter } from "./converters.js";
 import { getFirestore, doc, writeBatch, getDocs, collection } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { NIL as NIL_UUID } from "uuid";
-
+import { signInUser } from "./auth.js";
 
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
@@ -76,54 +76,87 @@ async function createMockBudget(userID, budget) {
 const userID = "uv3vY1gxaVXsgCsonX5H3EdpbBj1";
 const budgetID = "cf6f3cd7-fdeb-44d9-b5f3-44d3403afd8a";
 
-// Returns an array of Budget objects, but subcollections are left empty.
+// Returns an ARRAY!!!! of Budget objects, but subcollections are left empty.
 async function readBudgets(userID) {
 	const budgets = [];
 	const budgetsSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets).withConverter(budgetConverter));
-	budgetsSnapshot.forEach((doc) => {
-		const budget = doc.data();
-		budget.id = doc.id;
-		budgets.push(budget);
-	});
+	try {
+		budgetsSnapshot.forEach((doc) => {
+			const budget = doc.data();
+			budget.id = doc.id;
+			budgets.push(budget);
+		});
+		console.log("Successfully read user/budgets");
+		return budgets;
+	} catch (error) {
+		console.error("Failed to read user/budgets");
+	}
+
 	return budgets;
 }
 
 // Pass in Budget object to read subcollections.
 async function readBudgetSubcollections(userID, budget) {
-	// accounts
 	const accountsSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.accounts).withConverter(accountConverter));
-	accountsSnapshot.forEach((accountDoc) => {
-		budget.accounts.push(accountDoc.data());
-	});
-
-	// categories
 	const categoriesSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.categories).withConverter(categoryConverter));
-	categoriesSnapshot.forEach((categoryDoc) => {
-		budget.categories.push(categoryDoc.data());
-	});
-
-  // subcategories
-  const subcategoriesSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.subcategories).withConverter(subcategoryConverter));
-	subcategoriesSnapshot.forEach((subcategoryDoc) => {
-		budget.subcategories.push(subcategoryDoc.data());
-	});
-
-  // allocations
-  const allocationsSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.allocations).withConverter(allocationConverter));
-	allocationsSnapshot.forEach((allocationDoc) => {
-		budget.allocations.push(allocationDoc.data());
-	});
-
-  // transactions
-  const transactionsSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.transactions).withConverter(transactionConverter));
-	transactionsSnapshot.forEach((transactionDoc) => {
-		budget.transactions.push(transactionDoc.data());
-	});
-	console.log(budget)
-  return budget;
+	const subcategoriesSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.subcategories).withConverter(subcategoryConverter));
+	const allocationsSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.allocations).withConverter(allocationConverter));
+	const transactionsSnapshot = await getDocs(collection(database, collectionLabel.users, userID, collectionLabel.budgets, budgetID, collectionLabel.transactions).withConverter(transactionConverter));
+	try {
+		accountsSnapshot.forEach((accountDoc) => {
+			budget.accounts.push(accountDoc.data());
+		});
+		categoriesSnapshot.forEach((categoryDoc) => {
+			budget.categories.push(categoryDoc.data());
+		});
+		subcategoriesSnapshot.forEach((subcategoryDoc) => {
+			budget.subcategories.push(subcategoryDoc.data());
+		});
+		allocationsSnapshot.forEach((allocationDoc) => {
+			budget.allocations.push(allocationDoc.data());
+		});
+		transactionsSnapshot.forEach((transactionDoc) => {
+			budget.transactions.push(transactionDoc.data());
+		});
+		console.log("Successfully read user/budgets/subcollections");
+		return budget;
+	} catch (error) {
+		console.error(`Failed to read user/budgets/{subcollections}: ${error}`);
+		return error;
+	}
 }
 
+async function readSelectedBudget(userID) {
+	try {
+		return readBudgets(userID).then((budgets) => {
+			for (let budget of budgets) {
+				if (budget.selectedBool) {
+					return readBudgetSubcollections(userID, budget).then((selectedBudget) => {
+						console.log("Successfully read user data.");
+						return selectedBudget;
+					});
+					break;
+				}
+			}
+		});
+	} catch (error) {
+		console.error(`Failed to read user data: ${error}`);
+		return null;
+	}
+}
+
+/*
+signInUser("jelovalera@gmail.com", "cacHyk-wucpe0-bapbas").then(() => {
+	readSelectedBudget(userID).then(
+		(budget) => {
+			console.log(budget)
+		},
+		(error) => {
+			console.error(error)
+		}
+	)
+});
+*/
+
 //createMockBudget(userID, new Budget(uuidv4(), "Test Budget", new Date(), "en-US", "USD"))
-const b = await readBudgets(userID);
-readBudgetSubcollections(userID, b[0]);
 export { database, readBudgetSubcollections, readBudgets };
