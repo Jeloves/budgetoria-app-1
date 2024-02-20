@@ -1,10 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { signInUser } from "@/firebase/auth";
-import { sign } from "crypto";
-
-const testEmail = "test@gmail.com";
-const testPassword = "jewxuv-fodmu5-vuCgon";
 
 type LoginFormData = {
 	email: string;
@@ -17,7 +13,7 @@ export default function Login() {
 		password: "",
 	});
 
-	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {gi
 		const { name, value } = e.target;
 		setFormData({
 			...formData,
