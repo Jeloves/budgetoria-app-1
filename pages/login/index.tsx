@@ -13,7 +13,7 @@ export default function Login() {
 		password: "",
 	});
 
-	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {gi
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setFormData({
 			...formData,
