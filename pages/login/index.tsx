@@ -7,7 +7,7 @@ type LoginFormData = {
 	password: string;
 };
 
-export default function Login() {
+export default function LoginPage() {
 	const [formData, setFormData] = useState<LoginFormData>({
 		email: "",
 		password: "",
@@ -26,7 +26,7 @@ export default function Login() {
 		e.preventDefault();
 		try {
 			const user = await signInUser(formData.email, formData.password);
-			const destinationUrl = `/?uid=${encodeURIComponent(user.uid)}`;
+			const destinationUrl = `/budget?uid=${encodeURIComponent(user.uid)}`;
 			router.push(destinationUrl);
 		} catch (error) {
 			console.error(error);

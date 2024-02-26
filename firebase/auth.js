@@ -29,7 +29,7 @@ function signInUser(email, password) {
         .catch((error) => {
             return reject(error.message);
         });
-    })
+    });
 }
 
 function getUser() {
