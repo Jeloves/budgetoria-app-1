@@ -6,6 +6,7 @@ import { getFirestore, doc, writeBatch, getDocs, collection } from "firebase/fir
 import { v4 as uuidv4 } from "uuid";
 import { NIL as NIL_UUID } from "uuid";
 import { signInUser } from "./auth.js";
+import { getBudgets } from "@/api/budgets";
 
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
@@ -144,20 +145,6 @@ async function readSelectedBudget(userID) {
 		return null;
 	}
 }
-
-
-/*
-signInUser("jelovalera@gmail.com", "cacHyk-wucpe0-bapbas").then(() => {
-	readSelectedBudget(userID).then(
-		(budget) => {
-			console.log(budget)
-		},
-		(error) => {
-			console.error(error)
-		}
-	)
-});
-*/
 
 //createMockBudget(userID, new Budget(uuidv4(), "Test Budget", new Date(), "en-US", "USD"))
 export { database, readBudgetSubcollections, readBudgets };
