@@ -1,10 +1,11 @@
 @use "@styles/color";
+@use "@styles/space";
 
 .unassigned {
     height: auto;
     width: auto;
     background-color: color.$green;
-    border-radius: 3px;
+    border-radius: space.$s2;
     box-sizing: border-box;
     margin: 1rem;
     margin-bottom: 0rem;

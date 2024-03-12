@@ -1,19 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import styles from "./unassigned.module.scss";
 
-function Unassigned() {
-  
-    return (
-      <>
-        <section className={styles.unassigned}>
-            <div>
-                <data>$ 100.000</data>
-                <label>Ready to Assign</label>
-            </div>
-            <button>Assign Money</button>
-        </section>
-      </>
-    )
-  }
+type UnassignedPropsType = {
+  currency: string;
+	unassignedBalance: number;
+};
 
-  export default Unassigned
+const currencySymbols = new Map([
+  ['USD', '$'],
+  ['EUR', '€'],
+  ['GBP', '£'],
+  ['JPY', '¥'],
+  ['CAD', '$'],
+]);
+
+function Unassigned(props: UnassignedPropsType) {
+  const {currency, unassignedBalance} = props;
+
+	return (
+		<>
+			<section className={styles.unassigned}>
+				<div>
+					<data>{currencySymbols.get(currency)} {unassignedBalance / 1000000}</data>
+					<label>Ready to Assign</label>
+				</div>
+			</section>
+		</>
+	);
+}
+
+export default Unassigned;

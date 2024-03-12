@@ -3,7 +3,7 @@ import { firebaseConfig } from "./firebase.config.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseApp = initializeApp(firebaseConfig)
-const auth = getAuth();
+export const auth = getAuth();
 
 function createUser(email, password) {
     createUserWithEmailAndPassword(auth, email, password)

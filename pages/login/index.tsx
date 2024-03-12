@@ -25,11 +25,11 @@ export default function LoginPage() {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			const user = await signInUser(formData.email, formData.password);
-			const destinationUrl = `/budget?uid=${encodeURIComponent(user.uid)}`;
+			await signInUser(formData.email, formData.password);
+			const destinationUrl = "/budget";
 			router.push(destinationUrl);
 		} catch (error) {
-			console.error(error);
+			console.error("Failed to sign in and navigate to budget-page:", error);
 		}
 	};
 
